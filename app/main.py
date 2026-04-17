@@ -4,22 +4,22 @@ from fastapi import FastAPI
 from app import services
 from app.schema import UserIn, BaseResponse, UserListOut
 
+
+from prometheus_fastapi_instrumentator import Instrumentator
+
 app = FastAPI()
+
+
+Instrumentator().instrument(app).expose(app)
 
 
 @app.get("/")
 async def index():
-    """
-    Index route for our application
-    """
     return {"message": "Hello from FastAPI ;)"}
 
 
 @app.post("/users", response_model=BaseResponse)
 async def user_create(user: UserIn):
-    """
-    Add user data to json file
-    """
     try:
         services.add_userdata(user.dict())
     except:
@@ -29,7 +29,4 @@ async def user_create(user: UserIn):
 
 @app.get("/users", response_model=UserListOut)
 async def get_users():
-    """
-    Read user data from json file
-    """
     return services.read_usersdata()
