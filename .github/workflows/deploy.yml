@@ -24,7 +24,7 @@ jobs:
     # 3. Build Docker Image
     - name: Build Docker Image
       run: |
-        docker build -t shrikantpawars/fastapi:latest .
+        docker build --no-cache -t shrikantpawars/fastapi:latest .
 
     # 4. Push to DockerHub
     - name: Push Docker Image
